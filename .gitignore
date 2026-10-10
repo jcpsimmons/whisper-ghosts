@@ -1,0 +1,10 @@
+# Generated audio and transcripts. The scripts recreate them.
+audio/*
+!audio/.gitkeep
+out/
+
+# Local Python environment from scripts/setup.sh
+.venv/
+__pycache__/
+
+.DS_Store
