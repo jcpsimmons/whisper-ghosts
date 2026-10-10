@@ -1,6 +1,6 @@
 # Whisper ghosts
 
-Give OpenAI's Whisper 30 seconds of silence and it writes something anyway. In English it says "Thank you." Tell it the silence is Arabic and it writes a translator's credit. Czech and Turkish give you subtitle credits, French credits a Canadian broadcaster's subtitling team, and Chinese asks you to like, subscribe, share and tip a channel.
+Give OpenAI's Whisper 30 seconds of silence and it writes something anyway. In English it says "Thank you." Tell it the silence is Arabic and it writes "Translation by Nancy Qanqar." Czech gives you "Subtitles created by JohnyX," French credits Radio-Canada's subtitling, and Chinese asks you to like, subscribe, share and tip a channel.
 
 Nobody said any of it. The file is all zeros.
 
@@ -37,23 +37,26 @@ Transcripts land in `out/` and generated audio in `audio/`. Git ignores both, so
 
 On an Apple Silicon Mac with openai-whisper 20250625, the turbo model and greedy decoding, the silence came back as:
 
-| Language | Output (in English) |
-|---|---|
-| English | "Thank you." |
-| Arabic | a translator's credit |
-| Czech | a subtitle credit |
-| Turkish | a subtitle credit |
-| French | a subtitling credit for Société Radio-Canada |
-| Chinese | a request to like, subscribe, share and tip to support a channel |
-| Japanese | "Thank you for watching." |
-| Russian | "To be continued..." |
-| Korean, German, Spanish | "Thank you." |
+| Language | What Whisper wrote | In English |
+|---|---|---|
+| English | Thank you. | |
+| Arabic | ترجمة نانسي قنقر | Translation by Nancy Qanqar |
+| Czech | Titulky vytvořil JohnyX. | Subtitles created by JohnyX. |
+| Turkish | Altyazı M.K. | Subtitles: M.K. |
+| French | Sous-titrage Société Radio-Canada | Subtitling: Société Radio-Canada |
+| Chinese | 请不吝点赞 订阅 转发 打赏支持明镜与点点栏目 | Please like, subscribe, share and tip to support the Mingjing and Diandian program |
+| Japanese | ご視聴ありがとうございました | Thank you for watching. |
+| Russian | Продолжение следует... | To be continued... |
+| Korean | 감사합니다. | Thank you. |
+| German | Vielen Dank. | Thank you very much. |
+| Spanish | Gracias. | Thanks. |
+| Portuguese | E aí | Hey there |
 
 The noise clips came back "Thank you." too. Same settings, same output, every run.
 
 ## Settings change which ghost you get
 
-OpenAI's command line tool uses beam search by default: it keeps 5 candidate transcripts going and picks the best one. On Arabic silence that gives you "Subscribe to the channel." Greedy decoding takes the single most likely next word every time, and that's where the credits show up. `03-ghost-credit.sh` runs both so you can see the difference. mlx-whisper only does greedy, and other model sizes produce other ghosts.
+OpenAI's command line tool uses beam search by default: it keeps 5 candidate transcripts going and picks the best one. On Arabic silence that gives you اشتركوا في القناة, "Subscribe to the channel." Greedy decoding takes the single most likely next word every time, and that's where the credits show up. `03-ghost-credit.sh` runs both so you can see the difference. mlx-whisper only does greedy, and other model sizes produce other ghosts.
 
 So your results can differ from my table. The habit underneath stays put: when nothing is being said, Whisper writes what usually came at the end of a video.
 
